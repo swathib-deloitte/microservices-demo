@@ -1,0 +1,36 @@
+name: AWS Scenario 1 - Integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    name: Integration Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Check repository changes
+        run: git diff --check
+
+      - name: Check Kubernetes manifest
+        run: |
+          test -f release/kubernetes-manifests.yaml
+          echo "Kubernetes manifest found"
+
+      - name: Check Terraform files
+        run: |
+          test -d terraform/aws
+          test -f terraform/aws/main.tf
+          test -f terraform/aws/variables.tf
+          test -f terraform/aws/outputs.tf
+          echo "Terraform files found"

@@ -1,0 +1,41 @@
+name: AWS Scenario 1 - Terraform Validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/aws/**'
+      - '.github/workflows/aws-terraform.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'terraform/aws/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Terraform Format and Validate
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform/aws
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Initialize
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        run: terraform validate
