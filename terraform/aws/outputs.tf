@@ -1,19 +1,15 @@
-output "instance_id" {
-  description = "Scenario 2 EC2 instance ID"
-  value       = aws_instance.scenario2_server.id
+output "namespace" {
+  value = kubernetes_namespace.scenario2.metadata[0].name
 }
 
-output "public_ip" {
-  description = "Public IP address of Scenario 2 EC2"
-  value       = aws_instance.scenario2_server.public_ip
+output "deployment_name" {
+  value = kubernetes_deployment.nginx.metadata[0].name
 }
 
-output "public_dns" {
-  description = "Public DNS of Scenario 2 EC2"
-  value       = aws_instance.scenario2_server.public_dns
+output "service_name" {
+  value = kubernetes_service.nginx.metadata[0].name
 }
 
-output "ssh_command" {
-  description = "SSH command to connect to Scenario 2 EC2"
-  value       = "ssh -i ~/.ssh/scenario2-key ubuntu@${aws_instance.scenario2_server.public_ip}"
+output "node_port" {
+  value = kubernetes_service.nginx.spec[0].port[0].node_port
 }
