@@ -11,7 +11,7 @@ on:
     branches: [main]
     paths:
       - 'terraform/aws/**'
-    workflow_dispatch:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -29,20 +29,17 @@ jobs:
         run: |
           pwd
           ls -la
-          ls -la terraform/aws
+          ls -la terraform/aws/
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Format Check
-        working-directory: terraform/aws
-        run: terraform fmt -check -recursive
+        run: terraform -chdir=terraform/aws fmt -check -recursive
 
       - name: Terraform Initialize
-        working-directory: terraform/aws
-        run: terraform init -backend=false
+        run: terraform -chdir=terraform/aws init -backend=false
 
       - name: Terraform Validate
-        working-directory: terraform/aws
-        run: terraform validate
+        run: terraform -chdir=terraform/aws validate
 
