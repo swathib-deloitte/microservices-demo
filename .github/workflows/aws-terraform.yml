@@ -32,7 +32,7 @@ jobs:
           ls -la terraform/aws/
 
       - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@FULL_40_CHARACTER_COMMIT_SHA
 
       - name: Terraform Format Check
         run: terraform -chdir=terraform/aws fmt -check -recursive
